@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="sbcsms.EventInfoPage">
+    <!--Pages can be added as references or inline-->
+    <ContentPage Title="Event">
+        <StackLayout Margin="2">
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Event: "/>
+                <Label Text="{Binding EventInfo.EventType}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Event Info: "/>
+                <Label Text="{Binding EventInfo.EventInfo}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Event Generation Time: "/>
+                <Label Text="{Binding EventInfo.EventTime}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Position: "/>
+                <Label Text="{Binding EventInfo.Latitude}"/>
+                <Label Text="N"/>
+                <Label Text="{Binding EventInfo.Longitude}"/>
+                <Label Text="E"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Altitude: "/>
+                <Label Text="{Binding EventInfo.Altitude}"/>
+                <Label Text="m"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Satellites: "/>
+                <Label Text="{Binding EventInfo.Satellites}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Position Type: "/>
+                <Label Text="{Binding EventInfo.PositionType}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Speed: "/>
+                <Label Text="{Binding EventInfo.Speed}"/>
+                <Label Text="km/h"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Course: "/>
+                <Label Text="{Binding EventInfo.Course}"/>
+                <Label Text="°"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Mileage: "/>
+                <Label Text="{Binding EventInfo.MileageKm}"/>
+                <Label Text="km"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Gps Position Time: "/>
+                <Label Text="{Binding EventInfo.GpsTime}" TextColor="{Binding EventInfo.GpsColor}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Gsm Signal Quality (Event time): "/>
+                <Label Text="{Binding EventInfo.GsmRssiEvent} "/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Gsm Signal Quality (Sent time): "/>
+                <Label Text="{Binding EventInfo.GsmRssiSmsSent}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Network Operator (MCCMNC): "/>
+                <Label Text="{Binding EventInfo.MCCMNC}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="SMS Receive Time: "/>
+                <Label Text="{Binding EventInfo.ReceiveTime}" TextColor="{Binding EventInfo.GsmColor}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Stationary time: "/>
+                <Label Text="{Binding EventInfo.StationaryTimeWithUnit}"/>
+            </StackLayout>            
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Internal Battery: "/>
+                <Label Text="{Binding EventInfo.InternalBattery}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Car spare battery: "/>
+                <Label Text="{Binding EventInfo.ExternalPowerSupply}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Car main battery: "/>
+                <Label Text="{Binding EventInfo.AnalogInput}"/>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage>
+    <ContentPage Title="Map" >
+        <Label Text="map page."></Label>
+        
+    </ContentPage>
+</TabbedPage>

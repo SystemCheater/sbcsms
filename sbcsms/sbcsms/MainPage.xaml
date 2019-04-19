@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:sbcsms"
+             x:Class="sbcsms.MainPage">
+
+    <StackLayout>
+        <!-- Place new controls here -->
+        <Label Text="SMS Messages from board computer" 
+           HorizontalOptions="Center" />
+
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Phone: " VerticalTextAlignment="Center"/>
+            <Entry Text="{Binding SbcData.TargetDevice.Phonenumber}" Placeholder="+49176123456789" Scale="0.8" TextChanged="TargetDeviceInfoChanged"/>
+            <Label Text="IMEI: " VerticalTextAlignment="Center"/>
+            <Entry Text="{Binding SbcData.TargetDevice.Imei}" Placeholder="012345678912345" Scale="0.8" TextChanged="TargetDeviceInfoChanged"/>
+        </StackLayout>
+        <Button Text="{Binding PositionRequestStatus}" Clicked="RequestPositonButton_Clicked" />
+        <ListView Margin="1" ItemsSource="{Binding Path=Events}" ItemTapped="ListView_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Text="{Binding EventType}" TextColor="Black" FontSize="Medium" Margin="1"/>
+                                    <Label Grid.Column="1" Text="{Binding TimePassedSinceEvent}" TextColor="Gray" VerticalTextAlignment="Center" FontSize="Micro" Margin="1"/>
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Text="{Binding EventTime}" Margin ="1" FontSize="Micro"/>
+                                    <Label Grid.Column="1" Text="GSM " TextColor="{Binding GsmColor}" Margin="1" FontSize="Micro"/>
+                                    <Label Grid.Column="2" Text="GPS " TextColor="{Binding GpsColor}" Margin="1" FontSize="Micro"/>
+                                    <Label Grid.Column="3" Text="{Binding GpsTime}" Margin ="1" FontSize="Micro"/>
+                                </Grid>
+                            </StackLayout>
+                            <Button Grid.Column="1" Clicked="Button_Clicked" Text="Map"/>
+                            <!--<Image Grid.Column="1" Source="drawable/ic_map_pointer.png" WidthRequest="16">
+                                <Image.GestureRecognizers>
+                                    <ClickGestureRecognizer Clicked="Button_Clicked"/>
+                                </Image.GestureRecognizers>
+                            </Image>-->
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackLayout>
+
+</ContentPage>
