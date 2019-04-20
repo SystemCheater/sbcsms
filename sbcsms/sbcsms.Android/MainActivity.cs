@@ -46,7 +46,7 @@ namespace sbcsms.Droid
 
         private void SmsReceiverTelicEventReceived(object sender, TelicMessageReceivedEventArgs e)
         {
-            sbcData.Events.Add(e.EventMessage);
+            sbcData.AddEvent(e.EventMessage);
             ShowEventMessageNotification(this, e.EventMessage);
         }
 
@@ -124,7 +124,7 @@ namespace sbcsms.Droid
                 return;
             }
 
-            var list = new List<TelicEvent>();
+            var readEvents = new List<TelicEvent>();
             do
             {
                 if (!c.GetString(1).EndsWith(sbcData.TargetDevice.Phonenumber))
@@ -140,7 +140,7 @@ namespace sbcsms.Droid
                     var msgData = TelicEventMessageParser.Parse(c.GetString(4));
                     DateTime unixzero = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                     msgData.ReceiveTime = unixzero.AddMilliseconds(c.GetLong(3)).ToLocalTime();
-                    sbcData.Events.Add(msgData);
+                    readEvents.Add(msgData);
                 }
                 catch (InvalidOperationException)
                 {
@@ -148,6 +148,8 @@ namespace sbcsms.Droid
                 }
             }
             while (c.MoveToNext());
+
+            sbcData.AddEvent(readEvents);
         }
 
         bool IsSamePhonenumber(string phone1, string phone2)

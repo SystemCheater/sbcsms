@@ -1,5 +1,4 @@
-﻿using Android.App;
-using Android.Content;
+﻿using Android.Content;
 using Android.Provider;
 using Android.Widget;
 using System;

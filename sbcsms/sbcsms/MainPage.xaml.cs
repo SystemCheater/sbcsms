@@ -28,38 +28,15 @@ namespace sbcsms
                 Events.Add(new TelicEventViewModel(e));
             }
 
-            SbcData.Events.CollectionChanged += EventsCollectionChanged;
+            SbcData.EventsUpdated += EventsUpdated;
         }
 
-        private void EventsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void EventsUpdated(object sender, EventArgs e)
         {
-            foreach (var newItem in e.NewItems)
+            Events.Clear();
+            foreach (var ed in SbcData.Events.OrderByDescending(f => f.EventTime))
             {
-                var newEvent = newItem as TelicEvent;
-                if (newEvent == null)
-                {
-                    continue;
-                }
-
-                int insertPosition = 0;
-                if (Events.Count > 0)
-                {
-                    if (Events[0].EventTime >= newEvent.EventTime)
-                    {
-                        insertPosition = 0;
-                    }
-                    else if (Events[Events.Count - 1].EventTime <= newEvent.EventTime)
-                    {
-                        insertPosition = Events.Count - 1;
-                    }
-                    else if (Events.Count >= 2)
-                    {
-                        var indeces = Enumerable.Range(0, Events.Count - 2);
-                        insertPosition = indeces.FirstOrDefault(i => Events[i].EventTime <= newEvent.EventTime && Events[i + 1].EventTime >= newEvent.EventTime);
-                    }
-                }
-
-                Events.Insert(insertPosition, new TelicEventViewModel(newEvent));
+                Events.Add(new TelicEventViewModel(ed));
             }
         }
 
