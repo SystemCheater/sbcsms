@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using Android.Support.V4.App;
 using TaskStackBuilder = Android.Support.V4.App.TaskStackBuilder;
+using Android;
 
 namespace sbcsms.Droid
 {
@@ -24,18 +25,22 @@ namespace sbcsms.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
             base.OnCreate(savedInstanceState);
+
             CreateNotificationChannel();
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             App app = new App(sbcData);
+
             LoadApplication(app);
+
+            ActivityCompat.RequestPermissions(this, new[] { Manifest.Permission.ReceiveSms, Manifest.Permission.ReadSms }, 0);
             ReadSms(sbcData);
 
             var smsReceiver = new SMSReceiver();
             smsReceiver.TargetDevice = sbcData.TargetDevice;
             smsReceiver.TelicEventReceived += SmsReceiverTelicEventReceived;
+           
             RegisterReceiver(smsReceiver, new IntentFilter(Telephony.Sms.Intents.SmsReceivedAction));
         }
 

@@ -31,11 +31,6 @@ namespace sbcsms
             SbcData.Events.CollectionChanged += EventsCollectionChanged;
         }
 
-        private void OnChange(object sender, EventArgs e)
-        {
-
-        }
-
         private void EventsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             foreach (var newItem in e.NewItems)
@@ -46,7 +41,25 @@ namespace sbcsms
                     continue;
                 }
 
-                Events.Insert(0, new TelicEventViewModel(newEvent));
+                int insertPosition = 0;
+                if (Events.Count > 0)
+                {
+                    if (Events[0].EventTime >= newEvent.EventTime)
+                    {
+                        insertPosition = 0;
+                    }
+                    else if (Events[Events.Count - 1].EventTime <= newEvent.EventTime)
+                    {
+                        insertPosition = Events.Count - 1;
+                    }
+                    else if (Events.Count >= 2)
+                    {
+                        var indeces = Enumerable.Range(0, Events.Count - 2);
+                        insertPosition = indeces.FirstOrDefault(i => Events[i].EventTime <= newEvent.EventTime && Events[i + 1].EventTime >= newEvent.EventTime);
+                    }
+                }
+
+                Events.Insert(insertPosition, new TelicEventViewModel(newEvent));
             }
         }
 

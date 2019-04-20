@@ -5,11 +5,11 @@ namespace sbcsms
 {
     public class TelicEventViewModel : TelicEvent
     {
-        private TelicEvent telicEvent;
+        public TelicEvent TelicEvent { get; private set; }
 
         public TelicEventViewModel(TelicEvent telicEvent)
         {
-            this.telicEvent = telicEvent;
+            this.TelicEvent = telicEvent;
             this.Altitude = telicEvent.Altitude;
             this.AnalogInput = telicEvent.AnalogInput;
             this.Course = telicEvent.Course;
@@ -35,7 +35,7 @@ namespace sbcsms
             this.StationarySeconds = telicEvent.StationarySeconds;
         }
 
-        public double MileageKm { get { return telicEvent.Mileage / 1000.0; } }
+        public double MileageKm { get { return TelicEvent.Mileage / 1000.0; } }
 
         public string TimePassedSinceEvent
         {
