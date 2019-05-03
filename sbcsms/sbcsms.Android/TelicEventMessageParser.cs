@@ -89,19 +89,19 @@ namespace sbcsms.Droid
 
             telicEvent.DigitalInputStatus = parts[15];
             telicEvent.DigitalOutputStatus = parts[16];
-            if (uint.TryParse(parts[16], out uint externalPowerSupply))
+            if (uint.TryParse(parts[17], out uint externalPowerSupply))
             {
-                telicEvent.ExternalPowerSupply = externalPowerSupply;
+                telicEvent.ExternalPowerSupply = ConvertExternalVoltage(externalPowerSupply);
             }
 
             if (uint.TryParse(parts[18], out uint internalBattery))
             {
-                telicEvent.InternalBattery = internalBattery;
+                telicEvent.InternalBattery = ConvertBatteryVoltage(internalBattery);
             }
 
             if (uint.TryParse(parts[19], out uint analogInput))
             {
-                telicEvent.AnalogInput = analogInput;
+                telicEvent.AnalogInput = ConvertExternalVoltage(analogInput);
             }
 
             if (uint.TryParse(parts[21], out uint stationarySeconds))
@@ -120,6 +120,25 @@ namespace sbcsms.Droid
             }
 
             return telicEvent;
+        }
+
+        protected static float ConvertBatteryVoltage(uint analogInput)
+        {
+            return (float)(analogInput * 19.8) / 1000;
+        }
+
+        /// <summary>
+        /// Converts the raw ADC ouput of Telic devices' to Volts. 
+        /// This algorithm is valid for circuits/ADCs that are designed for 40 V max voltage (e. g. for supply voltage).
+        /// </summary>
+        /// <param name="analogInput">The analog input.</param>
+        /// <returns></returns>
+        protected static float ConvertExternalVoltage(uint analogInput)
+        {
+            if (analogInput == 0)
+                return 0.0f;
+
+            return (float)(6 + analogInput * 0.128);
         }
 
         private static bool ParsePosition(string lng, string lat, out float longitude, out float latitude)

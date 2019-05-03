@@ -23,9 +23,9 @@ namespace sbcsms
         public byte GsmRssiEvent { get; set; }
         public byte GsmRssiSmsSent { get; set; }
         public uint StationarySeconds { get; set; }
-        public uint AnalogInput { get; set; }
-        public uint InternalBattery { get; set; }
-        public uint ExternalPowerSupply { get; set; }
+        public float AnalogInput { get; set; }
+        public float InternalBattery { get; set; }
+        public float ExternalPowerSupply { get; set; }
         public string DigitalOutputStatus { get; set; }
         public string DigitalInputStatus { get; set; }
         public uint MCCMNC { get; set; }

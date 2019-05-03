@@ -14,7 +14,7 @@ namespace sbcsms
             this.AnalogInput = telicEvent.AnalogInput;
             this.Course = telicEvent.Course;
             this.DigitalInputStatus = telicEvent.DigitalInputStatus;
-            this.DigitalInputStatus = telicEvent.DigitalOutputStatus;
+            this.DigitalOutputStatus = telicEvent.DigitalOutputStatus;
             this.EventInfo = telicEvent.EventInfo;
             this.EventText = telicEvent.EventText;
             this.EventTime = telicEvent.EventTime;

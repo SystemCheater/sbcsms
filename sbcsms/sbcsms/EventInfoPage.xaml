@@ -79,14 +79,25 @@
             <StackLayout Orientation="Horizontal">
                 <Label Text="Internal Battery: "/>
                 <Label Text="{Binding EventInfo.InternalBattery}"/>
+                <Label Text="V"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
                 <Label Text="Car spare battery: "/>
                 <Label Text="{Binding EventInfo.ExternalPowerSupply}"/>
+                <Label Text="V"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
                 <Label Text="Car main battery: "/>
                 <Label Text="{Binding EventInfo.AnalogInput}"/>
+                <Label Text="V"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Inputs: "/>
+                <Label Text="{Binding EventInfo.DigitalInputStatus}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Outputs: "/>
+                <Label Text="{Binding EventInfo.DigitalOutputStatus}"/>
             </StackLayout>
 
         </StackLayout>
