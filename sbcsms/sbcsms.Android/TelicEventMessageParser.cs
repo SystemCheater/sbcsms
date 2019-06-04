@@ -24,7 +24,8 @@ namespace sbcsms.Droid
             var telicEvent = new TelicEvent() { EventText = parts[0] };
             if (isEventMessage)
             {
-                var eventType = parts[0].Remove(0, parts[0].Length - 2);
+                var headerAndImeiCount = GetHeaderAndImeiCount(parts);
+                var eventType = parts[0].Remove(0, headerAndImeiCount);
                 if (byte.TryParse(eventType, out byte b))
                 {
                     telicEvent.EventType = (EventType)b;
@@ -120,6 +121,22 @@ namespace sbcsms.Droid
             }
 
             return telicEvent;
+        }
+
+        private static int GetHeaderAndImeiCount(string[] parts)
+        {
+            bool isShortImei = parts[0].Length <= 4 + 6;
+            int headerAndImeiCount;
+            if (isShortImei)
+            {
+                headerAndImeiCount = 4 + 6;
+            }
+            else
+            {
+                headerAndImeiCount = 4 + 15;
+            }
+
+            return headerAndImeiCount;
         }
 
         protected static float ConvertBatteryVoltage(uint analogInput)
