@@ -33,6 +33,9 @@ namespace sbcsms
         public int Altitude { get; set; }
         public int Satellites { get; set; }
         public uint EventInfo { get; set; }
+        public int Hdop { get; set; }
+        public int Vdop { get; set; }
+        public uint PositionAccuracy { get; set; }
 
         public override string ToString()
         {

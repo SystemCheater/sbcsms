@@ -33,6 +33,9 @@ namespace sbcsms
             this.Satellites = telicEvent.Satellites;
             this.Speed = telicEvent.Speed;
             this.StationarySeconds = telicEvent.StationarySeconds;
+            this.Hdop = telicEvent.Hdop;
+            this.Vdop = telicEvent.Vdop;
+            this.PositionAccuracy = telicEvent.PositionAccuracy;
         }
 
         public double MileageKm { get { return TelicEvent.Mileage / 1000.0; } }

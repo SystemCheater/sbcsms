@@ -5,17 +5,11 @@ using System;
 
 namespace sbcsms.Droid
 {
-    //[BroadcastReceiver]
-    //[IntentFilter(new[] { Telephony.Sms.Intents.SmsReceivedAction }, Priority = (int)IntentFilterPriority.HighPriority)]
     public class SMSReceiver : BroadcastReceiver
     {
         public event EventHandler<TelicMessageReceivedEventArgs> TelicEventReceived;
 
         public TargetDevice TargetDevice { get; set; }
-
-        public SMSReceiver()
-        {
-        }
 
         public override void OnReceive(Context context, Intent intent)
         {

@@ -4,6 +4,7 @@
     {
         NoFix = 0,
         Gps2DFix = 2,
-        Gps3DFix = 3
+        Gps3DFix = 3,
+        GsmLocation = 6
     }
 }

@@ -73,6 +73,16 @@ namespace sbcsms.Droid
                 telicEvent.Satellites = satellites;
             }
 
+            if (int.TryParse(parts[10], out int hdop))
+            {
+                telicEvent.Hdop = hdop;
+            }
+
+            if (int.TryParse(parts[11], out int vdop))
+            {
+                telicEvent.Vdop = vdop;
+            }
+
             if (int.TryParse(parts[12], out int altitude))
             {
                 telicEvent.Altitude = altitude;
@@ -90,24 +100,18 @@ namespace sbcsms.Droid
 
             telicEvent.DigitalInputStatus = parts[15];
             telicEvent.DigitalOutputStatus = parts[16];
-            if (uint.TryParse(parts[17], out uint externalPowerSupply))
-            {
-                telicEvent.ExternalPowerSupply = ConvertExternalVoltage(externalPowerSupply);
-            }
-
-            if (uint.TryParse(parts[18], out uint internalBattery))
-            {
-                telicEvent.InternalBattery = ConvertBatteryVoltage(internalBattery);
-            }
-
-            if (uint.TryParse(parts[19], out uint analogInput))
-            {
-                telicEvent.AnalogInput = ConvertExternalVoltage(analogInput);
-            }
+            telicEvent.ExternalPowerSupply = ParseExternalVoltage(parts[17]);
+            telicEvent.InternalBattery = ParseBatteryVoltage(parts[18]);
+            telicEvent.AnalogInput = ParseExternalVoltage(parts[19]);
 
             if (uint.TryParse(parts[21], out uint stationarySeconds))
             {
                 telicEvent.StationarySeconds = stationarySeconds;
+            }
+
+            if (uint.TryParse(parts[22], out uint positionAccuracy))
+            {
+                telicEvent.PositionAccuracy = positionAccuracy;
             }
 
             if (byte.TryParse(parts[23], out byte gsmRssiSmsSent))
@@ -121,6 +125,47 @@ namespace sbcsms.Droid
             }
 
             return telicEvent;
+        }
+
+        private static float ParseExternalVoltage(string externalVoltageString)
+        {
+            if (!uint.TryParse(externalVoltageString, out var externalPowerSupply))
+                return 0.0f;
+
+            float voltage;
+            if (externalVoltageString.Length <= 3)
+            {
+                voltage = ConvertExternalVoltage(externalPowerSupply);
+            }
+            else
+            {
+                voltage = ConvertMilliVolts(externalPowerSupply);
+            }
+
+            return voltage;
+        }
+
+        private static float ParseBatteryVoltage(string batteryVoltageString)
+        {
+            if (!uint.TryParse(batteryVoltageString, out var batteryVoltageAsInteger))
+                return 0.0f;
+
+            float voltage;
+            if (batteryVoltageString.Length <= 3)
+            {
+                voltage = ConvertBatteryVoltage(batteryVoltageAsInteger);
+            }
+            else
+            {
+                voltage = ConvertMilliVolts(batteryVoltageAsInteger);
+            }
+
+            return voltage;
+        }
+
+        private static float ConvertMilliVolts(uint externalPowerSupply)
+        {
+            return externalPowerSupply / 1000.0f;
         }
 
         private static int GetHeaderAndImeiCount(string[] parts)

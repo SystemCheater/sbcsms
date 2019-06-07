@@ -57,6 +57,15 @@
                 <Label Text="{Binding EventInfo.GpsTime}" TextColor="{Binding EventInfo.GpsColor}"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
+                <Label Text="HDOP/VDOP/Accuracy: "/>
+                <Label Text="{Binding EventInfo.Hdop}"/>
+                <Label Text="/"/>
+                <Label Text="{Binding EventInfo.Vdop}"/>
+                <Label Text="/"/>
+                <Label Text="{Binding EventInfo.PositionAccuracy}"/>
+                <Label Text="m"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
                 <Label Text="Gsm Signal Quality (Event time): "/>
                 <Label Text="{Binding EventInfo.GsmRssiEvent} "/>
             </StackLayout>
