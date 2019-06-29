@@ -90,9 +90,9 @@ namespace sbcsms
         private void TargetDeviceInfoChanged(object sender, TextChangedEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(SbcData.TargetDevice.Phonenumber))
-                Application.Current.Properties["Phonenumber"] = SbcData.TargetDevice.Phonenumber;
+                Application.Current.Properties["Phonenumber"] = SbcData.TargetDevice.Phonenumber.Replace(" ", "");
             if (!string.IsNullOrWhiteSpace(SbcData.TargetDevice.Imei))
-                Application.Current.Properties["IMEI"] = SbcData.TargetDevice.Imei;
+                Application.Current.Properties["IMEI"] = SbcData.TargetDevice.Imei.Replace(" ", "");
         }
     }
 }
