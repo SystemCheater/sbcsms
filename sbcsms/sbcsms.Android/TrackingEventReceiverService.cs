@@ -1,13 +1,12 @@
-﻿using System;
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Support.V4.Content;
-using Android.Util;
-using ServicesDemo3;
-
-namespace sbcsms.Droid
+﻿namespace sbcsms.Droid
 {
+    using System;
+    using Android.App;
+    using Android.Content;
+    using Android.OS;
+    using Android.Support.V4.Content;
+    using Android.Util;
+
     /// <summary>
     ///     This is a sample started service. When the service is started, it will log a string that details how long
     ///     the service has been running (using Android.Util.Log). This service displays a notification in the notification
@@ -16,7 +15,7 @@ namespace sbcsms.Droid
     [Service]
     public class TrackingEventReceiverService : Service
     {
-        private static readonly string TAG = typeof(TimestampService).FullName;
+        private static readonly string TAG = typeof(TrackingEventReceiverService).FullName;
 
         public static string CHANNEL_ID = "exampleServiceChannel";
         private Handler handler;
@@ -126,7 +125,7 @@ namespace sbcsms.Droid
         private void RegisterForegroundService()
         {
             var notification = new Notification.Builder(this, CHANNEL_ID)
-                .SetContentTitle("SBCSMS")
+                .SetContentTitle(Resources.GetString(Resource.String.app_name))
                 .SetContentText("The started service is running.")
                 .SetSmallIcon(Resource.Drawable.ic_map_truck)
                 .SetContentIntent(BuildIntentToShowMainActivity())
@@ -135,7 +134,7 @@ namespace sbcsms.Droid
                 .AddAction(BuildStopServiceAction())
                 .Build();
 
-            var channel = new NotificationChannel(CHANNEL_ID, "ChannelForegroundServiceDemo",
+            var channel = new NotificationChannel(CHANNEL_ID, "TrackingEventChannel",
                 NotificationImportance.Default);
             channel.Description = "My description";
 
