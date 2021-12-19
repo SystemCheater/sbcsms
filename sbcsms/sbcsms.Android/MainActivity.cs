@@ -9,15 +9,18 @@ using System.Collections.Generic;
 using Android.Support.V4.App;
 using TaskStackBuilder = Android.Support.V4.App.TaskStackBuilder;
 using Android;
+using Android.Util;
 
 namespace sbcsms.Droid
 {
     [Activity(Label = "sbcsms", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        private const string StartServiceActionId = "ServicesDemo3.action.START_SERVICE";
         internal static readonly int NOTIFICATION_ID = 1000;
         internal static readonly string CHANNEL_ID = "eventmsg_notification";
         internal static readonly string EVENT_TYPE = "count";
+        static readonly string TAG = typeof(MainActivity).FullName;
 
         private SbcEventData sbcData = new SbcEventData();
 
@@ -28,9 +31,6 @@ namespace sbcsms.Droid
             base.OnCreate(savedInstanceState);
 
             CreateNotificationChannel();
-
-            // Example of creating an explicit Intent in an Android Activity
-            Intent downloadIntent = new Intent(this, typeof(DemoService));
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             App app = new App(sbcData);
@@ -45,6 +45,12 @@ namespace sbcsms.Droid
             smsReceiver.TelicEventReceived += SmsReceiverTelicEventReceived;
            
             RegisterReceiver(smsReceiver, new IntentFilter(Telephony.Sms.Intents.SmsReceivedAction));
+
+            var startServiceIntent = new Intent(this, typeof(TrackingEventReceiverService));
+            startServiceIntent.SetAction(StartServiceActionId);
+            StartService(startServiceIntent);
+            // StartForegroundServiceC(startServiceIntent);
+            Log.Info(TAG, "User requested that the service be started.");
         }
 
         private void SmsReceiverTelicEventReceived(object sender, TelicMessageReceivedEventArgs e)

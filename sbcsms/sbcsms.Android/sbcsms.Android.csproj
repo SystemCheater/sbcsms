@@ -69,7 +69,7 @@
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="SecondActivity.cs" />
     <Compile Include="TelicEventMessageParser.cs" />
     <Compile Include="SmsReceiver.cs" />
@@ -77,6 +77,9 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TelicMessageReceivedEventArgs.cs" />
+    <Compile Include="TimestampService.cs" />
+    <Compile Include="TrackingEventReceiverService.cs" />
+    <Compile Include="UtcTimestamper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

@@ -4,50 +4,12 @@ using Android.Util;
 using Android.Content;
 using Android.OS;
 using System.Threading;
-using sbcsms.Droid;
 
 namespace ServicesDemo3
 {
-	public class UtcTimestamper
-	{
-		DateTime startTime;
-		bool wasReset = false;
+   using Android.Runtime;
 
-		public UtcTimestamper()
-		{
-			startTime = DateTime.UtcNow;
-		}
-
-		public string GetFormattedTimestamp()
-		{
-			TimeSpan duration = DateTime.UtcNow.Subtract(startTime);
-
-			return wasReset ? $"Service restarted at {startTime} ({duration:c} ago)." : $"Service started at {startTime} ({duration:c} ago).";
-		}
-
-		public void Restart()
-		{
-			startTime = DateTime.UtcNow;
-			wasReset = true;
-		}
-	}
-
-
-	public static class Constants
-	{
-		public const int DELAY_BETWEEN_LOG_MESSAGES = 5000; // milliseconds
-		public const int SERVICE_RUNNING_NOTIFICATION_ID = 10000;
-		public const string SERVICE_STARTED_KEY = "has_service_been_started";
-		public const string BROADCAST_MESSAGE_KEY = "broadcast_message";
-		public const string NOTIFICATION_BROADCAST_ACTION = "ServicesDemo3.Notification.Action";
-
-		public const string ACTION_START_SERVICE = "ServicesDemo3.action.START_SERVICE";
-		public const string ACTION_STOP_SERVICE = "ServicesDemo3.action.STOP_SERVICE";
-		public const string ACTION_RESTART_TIMER = "ServicesDemo3.action.RESTART_TIMER";
-		public const string ACTION_MAIN_ACTIVITY = "ServicesDemo3.action.MAIN_ACTIVITY";
-	}
-
-	/// <summary>
+   /// <summary>
 	/// This is a sample started service. When the service is started, it will log a string that details how long 
 	/// the service has been running (using Android.Util.Log). This service displays a notification in the notification
 	/// tray while the service is active.
@@ -72,21 +34,21 @@ namespace ServicesDemo3
 
 			// This Action is only for demonstration purposes.
 			runnable = new Action(() =>
-			{
-				if (timestamper == null)
-				{
-					Log.Wtf(TAG, "Why isn't there a Timestamper initialized?");
-				}
-				else
-				{
-					string msg = timestamper.GetFormattedTimestamp();
-					Log.Debug(TAG, msg);
-					Intent i = new Intent(Constants.NOTIFICATION_BROADCAST_ACTION);
-					i.PutExtra(Constants.BROADCAST_MESSAGE_KEY, msg);
-					Android.Support.V4.Content.LocalBroadcastManager.GetInstance(this).SendBroadcast(i);
-					handler.PostDelayed(runnable, Constants.DELAY_BETWEEN_LOG_MESSAGES);
-				}
-			});
+							{
+								if (timestamper == null)
+								{
+									Log.Wtf(TAG, "Why isn't there a Timestamper initialized?");
+								}
+								else
+								{
+									string msg = timestamper.GetFormattedTimestamp();
+									Log.Debug(TAG, msg);
+									Intent i = new Intent(Constants.NOTIFICATION_BROADCAST_ACTION);
+									i.PutExtra(Constants.BROADCAST_MESSAGE_KEY, msg);
+									Android.Support.V4.Content.LocalBroadcastManager.GetInstance(this).SendBroadcast(i);
+									handler.PostDelayed(runnable, Constants.DELAY_BETWEEN_LOG_MESSAGES);
+								}
+							});
 		}
 
 		public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
@@ -97,12 +59,13 @@ namespace ServicesDemo3
 				{
 					Log.Info(TAG, "OnStartCommand: The service is already running.");
 				}
-				else
+				else 
 				{
 					Log.Info(TAG, "OnStartCommand: The service is starting.");
 					RegisterForegroundService();
 					handler.PostDelayed(runnable, Constants.DELAY_BETWEEN_LOG_MESSAGES);
-					isStarted = true;
+					
+               isStarted = true;
 				}
 			}
 			else if (intent.Action.Equals(Constants.ACTION_STOP_SERVICE))
@@ -158,22 +121,29 @@ namespace ServicesDemo3
 		/// <returns>A string that details what time the service started and how long it has been running.</returns>
 		string GetFormattedTimestamp()
 		{
-
+			
 			return timestamper?.GetFormattedTimestamp();
 		}
 
+      public static string CHANNEL_ID = "exampleServiceChannel";
 		void RegisterForegroundService()
 		{
-			var notification = new Notification.Builder(this)
-				.SetContentTitle("Content Title")
-				.SetContentText("This is the content text")
-				//.SetSmallIcon(Resource.Drawable.ic_stat_name)
+			var notification = new Notification.Builder(this, CHANNEL_ID)
+				.SetContentTitle(Resources.GetString(Resource.String.app_name))
+				.SetContentText(Resources.GetString(Resource.String.notification_text))
+				.SetSmallIcon(Resource.Drawable.ic_stat_name)
 				.SetContentIntent(BuildIntentToShowMainActivity())
 				.SetOngoing(true)
 				.AddAction(BuildRestartTimerAction())
 				.AddAction(BuildStopServiceAction())
 				.Build();
 
+         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "ChannelForegroundServiceDemo", Android.App.NotificationImportance.Default);
+         channel.Description="My description";
+
+         // Don't see these lines in your code...
+         NotificationManager notificationManager = (NotificationManager)GetSystemService(NotificationManager.FromContext(this).Class);
+         notificationManager.CreateNotificationChannel(channel);
 
 			// Enlist this instance of the service as a foreground service
 			StartForeground(Constants.SERVICE_RUNNING_NOTIFICATION_ID, notification);
@@ -205,8 +175,8 @@ namespace ServicesDemo3
 			restartTimerIntent.SetAction(Constants.ACTION_RESTART_TIMER);
 			var restartTimerPendingIntent = PendingIntent.GetService(this, 0, restartTimerIntent, 0);
 
-			var builder = new Notification.Action.Builder(Resource.Drawable.ic_map_truck,
-											  GetText(Resource.String.start_service),
+			var builder = new Notification.Action.Builder(Resource.Drawable.ic_action_restart_timer,
+											  GetText(Resource.String.restart_timer),
 											  restartTimerPendingIntent);
 
 			return builder.Build();
