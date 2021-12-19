@@ -59,6 +59,7 @@ namespace sbcsms.Droid
             ShowEventMessageNotification(this, e.EventMessage);
         }
 
+
         void ShowEventMessageNotification(object sender, TelicEvent eventArgs)
         {
             // Pass the current button press count value to the next activity:
