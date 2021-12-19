@@ -29,6 +29,9 @@ namespace sbcsms.Droid
 
             CreateNotificationChannel();
 
+            // Example of creating an explicit Intent in an Android Activity
+            Intent downloadIntent = new Intent(this, typeof(DemoService));
+
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             App app = new App(sbcData);
 
